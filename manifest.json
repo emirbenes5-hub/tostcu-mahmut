@@ -1,0 +1,15 @@
+{
+  "name": "Tostçu Mahmut — Menü",
+  "short_name": "Tostçu Mahmut",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#140d0b",
+  "theme_color": "#140d0b",
+  "icons": [
+    {
+      "src": "images/logo.jpg",
+      "sizes": "860x860",
+      "type": "image/jpeg"
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+  <meta name="theme-color" content="#140d0b" />
+  <title>Tostçu Mahmut — Menü</title>
+  <meta name="description" content="Tostçu Mahmut dijital QR menü — Döner, Tost, Atıştırmalıklar ve İçecekler." />
+
+  <link rel="icon" href="images/logo.jpg" />
+  <link rel="apple-touch-icon" href="images/logo.jpg" />
+  <link rel="manifest" href="manifest.json" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Tostçu Mahmut — Menü" />
+  <meta property="og:description" content="Kesiyorum, Kesiyorum, Kestim. Tostçu Mahmut'un dijital QR menüsünü keşfet." />
+  <meta property="og:image" content="images/logo.jpg" />
+  <meta name="twitter:card" content="summary" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <span class="brand"><span class="brand-accent">Tostçu</span> Mahmut</span>
+  </header>
+
+  <main id="app">
+    <section id="view-home" class="view active">
+      <div class="home-hero">
+        <div class="avatar-ring">
+          <img class="brand-avatar" src="images/logo.jpg" alt="Tostçu Mahmut logo" />
+        </div>
+        <h1>Tostçu Mahmut</h1>
+        <p class="tagline">Kesiyorum, Kesiyorum, Kestim</p>
+      </div>
+      <div class="rating-section">
+        <p class="rating-baslik">Tostçu Mahmut</p>
+        <div class="yildizlar" id="yildizlar">
+          <span class="yildiz" data-puan="1">★</span>
+          <span class="yildiz" data-puan="2">★</span>
+          <span class="yildiz" data-puan="3">★</span>
+          <span class="yildiz" data-puan="4">★</span>
+          <span class="yildiz" data-puan="5">★</span>
+        </div>
+        <button class="puanla-btn" id="puanla-btn" type="button">Puanla</button>
+      </div>
+
+      <p class="home-subtitle">Ne canın çekti bugün?</p>
+      <div class="home-kategoriler" id="home-kategoriler"></div>
+
+      <div class="info-footer" id="info-footer"></div>
+
+      <footer class="qr-footer">
+        <span class="qr-label">Menüyü paylaş</span>
+        <div id="qrcode"></div>
+        <button class="share-btn" id="share-btn" type="button">Bağlantıyı paylaş</button>
+        <p class="small">Bu sayfa hosting'e atıldığında QR kod otomatik bu adrese işaret eder.</p>
+      </footer>
+
+      <p class="copyright">© <span id="copyright-yil"></span> Tostçu Mahmut</p>
+    </section>
+
+    <section id="view-category" class="view">
+      <button class="back-btn" id="back-btn" type="button" aria-label="Geri">
+        <span aria-hidden="true">←</span> Menü
+      </button>
+      <h2 id="category-title"></h2>
+      <div id="category-content"></div>
+    </section>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="menu-data.js?v=7"></script>
+  <script src="script.js?v=7"></script>
+</body>
+</html>
