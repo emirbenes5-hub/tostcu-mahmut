@@ -7,41 +7,50 @@ function urunKarti(urun, ikonFallback) {
   const card = document.createElement("article");
   card.className = "card";
 
-  const photo = document.createElement("div");
-  photo.className = "photo";
+  const media = document.createElement("div");
+  media.className = "card-media";
+
   if (urun.image) {
     const img = document.createElement("img");
+    img.className = "card-img";
     img.src = urun.image;
     img.alt = urun.ad;
-    photo.appendChild(img);
+    img.loading = "lazy";
+    media.appendChild(img);
   } else {
-    photo.textContent = ikonFallback;
+    media.classList.add("card-media--fallback");
+    const fallbackIcon = document.createElement("span");
+    fallbackIcon.className = "card-fallback-icon";
+    fallbackIcon.textContent = ikonFallback;
+    media.appendChild(fallbackIcon);
   }
-  card.appendChild(photo);
 
-  const body = document.createElement("div");
-  body.className = "body";
+  const overlay = document.createElement("div");
+  overlay.className = "card-overlay";
 
-  const row = document.createElement("div");
-  row.className = "row";
   const h3 = document.createElement("h3");
+  h3.className = "card-ad";
   h3.textContent = urun.ad;
-  row.appendChild(h3);
+  overlay.appendChild(h3);
 
   const fiyatMetni = formatFiyat(urun.fiyat);
   if (fiyatMetni) {
     const price = document.createElement("span");
-    price.className = "price";
+    price.className = "card-fiyat";
     price.textContent = fiyatMetni;
-    row.appendChild(price);
+    overlay.appendChild(price);
   }
-  body.appendChild(row);
 
-  const p = document.createElement("p");
-  p.textContent = urun.aciklama;
-  body.appendChild(p);
+  media.appendChild(overlay);
+  card.appendChild(media);
 
-  card.appendChild(body);
+  if (urun.aciklama) {
+    const p = document.createElement("p");
+    p.className = "card-aciklama";
+    p.textContent = urun.aciklama;
+    card.appendChild(p);
+  }
+
   return card;
 }
 
@@ -53,23 +62,29 @@ function renderHome() {
   const wrap = document.getElementById("home-kategoriler");
   MENU.kategoriler.forEach((kategori) => {
     const btn = document.createElement("button");
-    btn.className = "kategori-karti";
+    btn.className = "kategori-tab";
     btn.type = "button";
     btn.style.setProperty("--accent", kategori.renk || "#c2352f");
-    const ikonIc = kategori.kapak
-      ? `<img src="${kategori.kapak}" alt="${kategori.ad}" />`
-      : kategori.ikon;
+
     const urunSayisi =
       kategori.urunler.length + (kategori.menuler ? kategori.menuler.urunler.length : 0);
-    const altYazi = urunSayisi > 0 ? `${urunSayisi} ürün` : "Yakında";
+    if (urunSayisi === 0) {
+      btn.classList.add("kategori-tab--soon");
+    }
+
+    const ikonIc = kategori.kapak
+      ? `<img src="${kategori.kapak}" alt="" />`
+      : kategori.ikon;
+
     btn.innerHTML = `
-      <span class="kategori-ikon">${ikonIc}</span>
-      <span class="kategori-metin">
-        <span class="kategori-ad">${kategori.ad}</span>
-        <span class="kategori-sayi">${altYazi}</span>
-      </span>
-      <span class="kategori-ok" aria-hidden="true">›</span>
+      <span class="kategori-tab-ikon">${ikonIc}</span>
+      <span class="kategori-tab-ad">${kategori.ad}</span>
+      ${urunSayisi === 0 ? '<span class="kategori-tab-alt">Yakında</span>' : ""}
     `;
+    btn.setAttribute(
+      "aria-label",
+      urunSayisi > 0 ? `${kategori.ad}, ${urunSayisi} ürün` : `${kategori.ad}, yakında`
+    );
     btn.addEventListener("click", () => showCategory(kategori.id));
     wrap.appendChild(btn);
   });
@@ -220,6 +235,33 @@ function baglaSayfaEtkilesimleri() {
   });
 }
 
+function initSplash() {
+  const splash = document.getElementById("splash");
+  if (!splash) return;
+
+  document.body.classList.add("splash-active");
+
+  let hidden = false;
+  const hide = () => {
+    if (hidden) return;
+    hidden = true;
+    splash.classList.add("splash-hide");
+    document.body.classList.remove("splash-active");
+    setTimeout(() => splash.remove(), 550);
+  };
+
+  const MIN_DELAY = 700;
+  const MAX_DELAY = 1400;
+
+  if (document.readyState === "complete") {
+    setTimeout(hide, MIN_DELAY);
+  } else {
+    window.addEventListener("load", () => setTimeout(hide, MIN_DELAY), { once: true });
+  }
+  setTimeout(hide, MAX_DELAY);
+}
+
+initSplash();
 renderHome();
 renderInfoFooter();
 renderRatingSection();

@@ -20,12 +20,23 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=10" />
 </head>
 <body>
+  <div id="splash" class="splash" role="presentation" aria-hidden="true">
+    <div class="splash-inner">
+      <div class="avatar-ring">
+        <img class="brand-avatar" src="images/logo.jpg" alt="" />
+      </div>
+      <div class="splash-dots">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+
   <header class="topbar">
     <span class="brand"><span class="brand-accent">Tostçu</span> Mahmut</span>
   </header>
@@ -51,8 +62,29 @@
         <button class="puanla-btn" id="puanla-btn" type="button">Puanla</button>
       </div>
 
-      <p class="home-subtitle">Ne canın çekti bugün?</p>
+      <div class="menu-intro">
+        <span class="menu-intro-icon" aria-hidden="true">🍴</span>
+        <h2 class="menu-intro-baslik">MENÜMÜZ</h2>
+        <p class="menu-intro-alt"><span class="cizgi"></span>Seç &amp; Sipariş Ver<span class="cizgi"></span></p>
+        <p class="menu-intro-aciklama">Taze pişirilen döner ve tostlardan soğuk içeceklere kadar; canının çektiği her şey burada.</p>
+      </div>
       <div class="home-kategoriler" id="home-kategoriler"></div>
+
+      <div class="atmosfer-foto">
+        <img src="images/kapak-doner.jpg" alt="" />
+      </div>
+
+      <div class="vibe-intro">
+        <h2 class="vibe-baslik">TAZE, HIZLI, LEZZETLİ</h2>
+        <p class="vibe-alt"><span class="cizgi"></span>Ustadan Sofranıza<span class="cizgi"></span></p>
+        <p class="vibe-aciklama">Tostçu Mahmut'ta her sipariş anında, gözünüzün önünde hazırlanır. Taze pişirilen dönerimiz, çıtır tostlarımız ve soğuk içeceklerimizle karnınızı doyuruyor, damağınızda iz bırakıyoruz. Hızlı servis, sıcacık lezzet — her zaman.</p>
+      </div>
+
+      <div class="hakkimizda">
+        <h2 class="hakkimizda-baslik">BİZE DAİR</h2>
+        <p class="hakkimizda-aciklama">Her dilimde emeğimizi hissedeceksiniz. Tostçu Mahmut olarak, taze malzemeler ve ustaca hazırlanan lezzetlerle sizlere keyifli bir deneyim sunuyoruz. Amacımız sadece karın doyurmak değil; her lokmada fark yaratan, damağınızda iz bırakan bir lezzet yaşatmak.</p>
+        <p class="imza">Tostçu Mahmut</p>
+      </div>
 
       <div class="info-footer" id="info-footer"></div>
 
@@ -76,7 +108,7 @@
   </main>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <script src="menu-data.js?v=7"></script>
-  <script src="script.js?v=7"></script>
+  <script src="menu-data.js?v=10"></script>
+  <script src="script.js?v=10"></script>
 </body>
 </html>
