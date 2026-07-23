@@ -107,7 +107,7 @@ function initGoogleOneTap() {
   }
 
   girisOverlayGoster();
-  const guvenlikSuresi = setTimeout(girisOverlayGizle, 15000);
+  const guvenlikSuresi = setTimeout(girisOverlayGizle, 30000);
 
   const denemeAraligi = 300;
   const tryInit = () => {
