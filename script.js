@@ -84,15 +84,37 @@ function uygulamaIciTarayiciUyarisiGoster() {
   document.body.prepend(banner);
 }
 
+function girisOverlayGoster() {
+  const overlay = document.createElement("div");
+  overlay.id = "giris-overlay";
+  overlay.className = "giris-overlay";
+  overlay.innerHTML = `<p class="giris-overlay-metin">Menüyü görüntülemek için lütfen Google ile devam edin</p>`;
+  document.body.appendChild(overlay);
+  return overlay;
+}
+
+function girisOverlayGizle() {
+  const overlay = document.getElementById("giris-overlay");
+  if (!overlay) return;
+  overlay.classList.add("gizli");
+  setTimeout(() => overlay.remove(), 350);
+}
+
 function initGoogleOneTap() {
   if (uygulamaIciTarayiciMi()) {
     uygulamaIciTarayiciUyarisiGoster();
     return;
   }
 
+  girisOverlayGoster();
+  const guvenlikSuresi = setTimeout(girisOverlayGizle, 6000);
+
   const denemeAraligi = 300;
   const tryInit = () => {
-    if (!window.GOOGLE_CLIENT_ID) return;
+    if (!window.GOOGLE_CLIENT_ID) {
+      girisOverlayGizle();
+      return;
+    }
     if (window.google && google.accounts && google.accounts.id) {
       google.accounts.id.initialize({
         client_id: window.GOOGLE_CLIENT_ID,
@@ -101,10 +123,13 @@ function initGoogleOneTap() {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ credential: response.credential }),
-          }).catch(() => {});
+          }).finally(() => {
+            clearTimeout(guvenlikSuresi);
+            girisOverlayGizle();
+          });
         },
         auto_select: true,
-        cancel_on_tap_outside: true,
+        cancel_on_tap_outside: false,
       });
       google.accounts.id.prompt();
     } else {

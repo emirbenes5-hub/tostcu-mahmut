@@ -34,6 +34,34 @@ body {
   letter-spacing: -0.01em;
 }
 
+/* Google girişi zorunlu karartma katmanı */
+.giris-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  background: rgba(10, 6, 5, 0.88);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 90px;
+  text-align: center;
+  transition: opacity 0.3s ease;
+}
+
+.giris-overlay.gizli {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.giris-overlay-metin {
+  color: var(--text);
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0 32px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
 /* Uygulama içi tarayıcı uyarı bandı */
 .tarayici-uyari {
   position: fixed;
