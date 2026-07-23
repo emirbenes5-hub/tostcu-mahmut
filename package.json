@@ -1,0 +1,10 @@
+{
+  "name": "tostcu-mahmut",
+  "private": true,
+  "version": "1.0.0",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4",
+    "google-auth-library": "^9.14.1",
+    "resend": "^4.0.0"
+  }
+}

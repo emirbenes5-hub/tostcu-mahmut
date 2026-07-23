@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Tostçu Mahmut — Yönetim Paneli</title>
+  <link rel="icon" href="images/logo.jpg" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --bg: #140d0b;
+      --bg-elevated: #201512;
+      --bg-elevated-2: #2a1c17;
+      --red: #d1443b;
+      --gold: #f6ca45;
+      --text: #f6f1ec;
+      --text-muted: #ab9c92;
+      --border: rgba(246, 202, 69, 0.1);
+      --radius-lg: 22px;
+      --radius-md: 16px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Plus Jakarta Sans", -apple-system, sans-serif;
+      padding: 24px 18px 60px;
+    }
+    main { max-width: 640px; margin: 0 auto; }
+    h1 { font-size: 1.4rem; font-weight: 800; margin: 0 0 24px; }
+    .kart {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .kart h2 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin: 0 0 14px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    input, textarea {
+      width: 100%;
+      background: var(--bg-elevated-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      color: var(--text);
+      padding: 12px 14px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+    textarea { min-height: 110px; resize: vertical; }
+    button {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: none;
+      background: var(--gold);
+      color: var(--bg);
+      padding: 11px 22px;
+      border-radius: 999px;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .hata { color: var(--red); font-size: 0.85rem; margin: 6px 0 0; }
+    .basari { color: var(--gold); font-size: 0.85rem; margin: 6px 0 0; }
+    .stat-satir {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+    .stat-satir:last-child { border-bottom: none; }
+    .stat-satir span:first-child { color: var(--text-muted); }
+    .stat-satir span:last-child { font-weight: 700; color: var(--gold); }
+    #panel { display: none; }
+    .abone-listesi { max-height: 220px; overflow-y: auto; font-size: 0.85rem; }
+    .abone-listesi div { padding: 6px 0; border-bottom: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Tostçu Mahmut — Yönetim Paneli</h1>
+
+    <div class="kart" id="giris-kart">
+      <h2>Giriş</h2>
+      <input type="password" id="sifre-input" placeholder="Yönetici şifresi" />
+      <button id="giris-btn" type="button">Giriş yap</button>
+      <p class="hata" id="giris-hata"></p>
+    </div>
+
+    <div id="panel">
+      <div class="kart">
+        <h2>Ziyaretler</h2>
+        <div class="stat-satir"><span>Toplam ziyaret</span><span id="toplam-ziyaret">—</span></div>
+        <div id="aylik-ziyaret"></div>
+      </div>
+
+      <div class="kart">
+        <h2>En çok bakılan kategoriler</h2>
+        <div id="siralikategori"></div>
+      </div>
+
+      <div class="kart">
+        <h2>En çok bakılan ürünler</h2>
+        <div id="siraliurun"></div>
+      </div>
+
+      <div class="kart">
+        <h2>Aboneler (<span id="abone-sayisi">0</span>)</h2>
+        <div class="abone-listesi" id="abone-listesi"></div>
+      </div>
+
+      <div class="kart">
+        <h2>Kampanya maili gönder</h2>
+        <input type="text" id="kampanya-konu" placeholder="Konu (ör. Bu hafta %20 indirim!)" />
+        <textarea id="kampanya-mesaj" placeholder="Mesaj metni..."></textarea>
+        <button id="kampanya-btn" type="button">Tüm abonelere gönder</button>
+        <p class="hata" id="kampanya-hata"></p>
+        <p class="basari" id="kampanya-basari"></p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    let ADMIN_SIFRE = "";
+
+    async function veriGetir() {
+      const res = await fetch("/api/admin-veri", {
+        headers: { "x-admin-sifre": ADMIN_SIFRE },
+      });
+      if (!res.ok) throw new Error("yetkisiz");
+      return res.json();
+    }
+
+    function panelDoldur(veri) {
+      document.getElementById("toplam-ziyaret").textContent = veri.toplamZiyaret;
+
+      const aylikEl = document.getElementById("aylik-ziyaret");
+      aylikEl.innerHTML = Object.entries(veri.aylikSayim)
+        .sort((a, b) => (a[0] < b[0] ? 1 : -1))
+        .map(([ay, sayi]) => `<div class="stat-satir"><span>${ay}</span><span>${sayi}</span></div>`)
+        .join("");
+
+      const katEl = document.getElementById("siralikategori");
+      katEl.innerHTML = veri.siraliKategori.length
+        ? veri.siraliKategori
+            .map(([id, sayi]) => `<div class="stat-satir"><span>${id}</span><span>${sayi}</span></div>`)
+            .join("")
+        : '<p style="color:var(--text-muted);font-size:0.85rem;margin:0;">Henüz veri yok.</p>';
+
+      const urunEl = document.getElementById("siraliurun");
+      urunEl.innerHTML = veri.siraliUrun.length
+        ? veri.siraliUrun
+            .map(([ad, sayi]) => `<div class="stat-satir"><span>${ad}</span><span>${sayi}</span></div>`)
+            .join("")
+        : '<p style="color:var(--text-muted);font-size:0.85rem;margin:0;">Henüz veri yok.</p>';
+
+      document.getElementById("abone-sayisi").textContent = veri.aboneSayisi;
+      const aboneEl = document.getElementById("abone-listesi");
+      aboneEl.innerHTML = veri.aboneler.length
+        ? veri.aboneler.map((a) => `<div>${a.email}</div>`).join("")
+        : '<p style="color:var(--text-muted);font-size:0.85rem;margin:0;">Henüz abone yok.</p>';
+    }
+
+    document.getElementById("giris-btn").addEventListener("click", async () => {
+      const hataEl = document.getElementById("giris-hata");
+      hataEl.textContent = "";
+      ADMIN_SIFRE = document.getElementById("sifre-input").value;
+      try {
+        const veri = await veriGetir();
+        panelDoldur(veri);
+        document.getElementById("giris-kart").style.display = "none";
+        document.getElementById("panel").style.display = "block";
+      } catch (err) {
+        hataEl.textContent = "Şifre yanlış ya da veri alınamadı.";
+      }
+    });
+
+    document.getElementById("kampanya-btn").addEventListener("click", async () => {
+      const btn = document.getElementById("kampanya-btn");
+      const hataEl = document.getElementById("kampanya-hata");
+      const basariEl = document.getElementById("kampanya-basari");
+      hataEl.textContent = "";
+      basariEl.textContent = "";
+
+      const konu = document.getElementById("kampanya-konu").value.trim();
+      const mesaj = document.getElementById("kampanya-mesaj").value.trim();
+      if (!konu || !mesaj) {
+        hataEl.textContent = "Konu ve mesaj gerekli.";
+        return;
+      }
+
+      btn.disabled = true;
+      try {
+        const res = await fetch("/api/kampanya-gonder", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-admin-sifre": ADMIN_SIFRE,
+          },
+          body: JSON.stringify({ konu, mesaj }),
+        });
+        const veri = await res.json();
+        if (!res.ok) throw new Error(veri.error || "gönderilemedi");
+        basariEl.textContent = `${veri.gonderilen} aboneye gönderildi.`;
+      } catch (err) {
+        hataEl.textContent = "Gönderim başarısız: " + err.message;
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -51,7 +51,46 @@ function urunKarti(urun, ikonFallback) {
     card.appendChild(p);
   }
 
+  card.addEventListener("click", () => trackEtkilesim("urun", null, urun.ad));
+
   return card;
+}
+
+function trackZiyaret() {
+  fetch("/api/track-ziyaret", { method: "POST" }).catch(() => {});
+}
+
+function trackEtkilesim(tur, kategoriId, urunAdi) {
+  fetch("/api/track-etkilesim", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ tur, kategori_id: kategoriId || null, urun_adi: urunAdi || null }),
+  }).catch(() => {});
+}
+
+function initGoogleOneTap() {
+  const denemeAraligi = 300;
+  const tryInit = () => {
+    if (!window.GOOGLE_CLIENT_ID) return;
+    if (window.google && google.accounts && google.accounts.id) {
+      google.accounts.id.initialize({
+        client_id: window.GOOGLE_CLIENT_ID,
+        callback: (response) => {
+          fetch("/api/abone-ol", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ credential: response.credential }),
+          }).catch(() => {});
+        },
+        auto_select: false,
+        cancel_on_tap_outside: true,
+      });
+      google.accounts.id.prompt();
+    } else {
+      setTimeout(tryInit, denemeAraligi);
+    }
+  };
+  tryInit();
 }
 
 function urunKartiListe(urun, ikonFallback) {
@@ -105,6 +144,7 @@ function urunKartiListe(urun, ikonFallback) {
   }
 
   card.appendChild(info);
+  card.addEventListener("click", () => trackEtkilesim("urun", null, urun.ad));
   return card;
 }
 
@@ -139,7 +179,10 @@ function renderHome() {
       "aria-label",
       urunSayisi > 0 ? `${kategori.ad}, ${urunSayisi} ürün` : `${kategori.ad}, yakında`
     );
-    btn.addEventListener("click", () => showCategory(kategori.id));
+    btn.addEventListener("click", () => {
+      trackEtkilesim("kategori", kategori.id, null);
+      showCategory(kategori.id);
+    });
     wrap.appendChild(btn);
   });
 }
@@ -323,3 +366,5 @@ renderInfoFooter();
 renderRatingSection();
 renderQrCode();
 baglaSayfaEtkilesimleri();
+trackZiyaret();
+initGoogleOneTap();

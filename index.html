@@ -23,7 +23,12 @@
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="style.css?v=11" />
+  <link rel="stylesheet" href="style.css?v=12" />
+  <script>
+    // Google Cloud Console > OAuth Client ID oluşturunca buraya yapıştır (gizli değildir).
+    window.GOOGLE_CLIENT_ID = "";
+  </script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
   <div id="splash" class="splash" role="presentation" aria-hidden="true">
@@ -108,7 +113,7 @@
   </main>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <script src="menu-data.js?v=11"></script>
-  <script src="script.js?v=11"></script>
+  <script src="menu-data.js?v=12"></script>
+  <script src="script.js?v=12"></script>
 </body>
 </html>
