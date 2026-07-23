@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tostçu Mahmut — QR Yazdır</title>
+  <link rel="icon" href="images/logo.jpg" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #ffffff;
+      color: #140d0b;
+      font-family: "Plus Jakarta Sans", -apple-system, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .kart {
+      text-align: center;
+      max-width: 420px;
+    }
+    .logo {
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 14px;
+    }
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin: 0 0 6px;
+    }
+    p.alt {
+      color: #6b5f57;
+      font-size: 1rem;
+      margin: 0 0 28px;
+    }
+    #qrcode {
+      display: inline-block;
+      padding: 16px;
+      border: 2px solid #140d0b;
+      border-radius: 18px;
+    }
+    p.aciklama {
+      margin-top: 24px;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    @media print {
+      body { padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="kart">
+    <img class="logo" src="images/logo.jpg" alt="Tostçu Mahmut logo" />
+    <h1>Tostçu Mahmut</h1>
+    <p class="alt">Kesiyorum, Kesiyorum, Kestim</p>
+    <div id="qrcode"></div>
+    <p class="aciklama">Menüyü görüntülemek için kodu okutun</p>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
+    new QRCode(document.getElementById("qrcode"), {
+      text: "https://tostcu-mahmut.vercel.app/",
+      width: 260,
+      height: 260,
+      colorDark: "#140d0b",
+      colorLight: "#ffffff",
+    });
+  </script>
+</body>
+</html>
