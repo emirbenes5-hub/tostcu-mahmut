@@ -82,7 +82,7 @@ function initGoogleOneTap() {
             body: JSON.stringify({ credential: response.credential }),
           }).catch(() => {});
         },
-        auto_select: false,
+        auto_select: true,
         cancel_on_tap_outside: true,
       });
       google.accounts.id.prompt();
