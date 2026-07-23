@@ -714,6 +714,38 @@ main#app {
   line-height: 1.4;
 }
 
+/* Döner kategorisi — liste kartı varyantı */
+.card--liste .card-media {
+  aspect-ratio: 16 / 11;
+}
+
+.card-liste-info {
+  padding: 14px 16px 16px;
+}
+
+.card-liste-ust {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.card--liste .card-ad {
+  text-transform: none;
+  text-shadow: none;
+  font-size: 1.02rem;
+}
+
+.card--liste .card-fiyat {
+  flex: 0 0 auto;
+  text-shadow: none;
+  font-size: 1.05rem;
+}
+
+.card--liste .card-aciklama {
+  padding: 8px 0 0;
+}
+
 /* Empty state */
 .empty-state {
   text-align: center;

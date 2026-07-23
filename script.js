@@ -54,6 +54,60 @@ function urunKarti(urun, ikonFallback) {
   return card;
 }
 
+function urunKartiListe(urun, ikonFallback) {
+  const card = document.createElement("article");
+  card.className = "card card--liste";
+
+  const media = document.createElement("div");
+  media.className = "card-media";
+
+  if (urun.image) {
+    const img = document.createElement("img");
+    img.className = "card-img";
+    img.src = urun.image;
+    img.alt = urun.ad;
+    img.loading = "lazy";
+    media.appendChild(img);
+  } else {
+    media.classList.add("card-media--fallback");
+    const fallbackIcon = document.createElement("span");
+    fallbackIcon.className = "card-fallback-icon";
+    fallbackIcon.textContent = ikonFallback;
+    media.appendChild(fallbackIcon);
+  }
+  card.appendChild(media);
+
+  const info = document.createElement("div");
+  info.className = "card-liste-info";
+
+  const ust = document.createElement("div");
+  ust.className = "card-liste-ust";
+
+  const h3 = document.createElement("h3");
+  h3.className = "card-ad";
+  h3.textContent = urun.ad;
+  ust.appendChild(h3);
+
+  const fiyatMetni = formatFiyat(urun.fiyat);
+  if (fiyatMetni) {
+    const price = document.createElement("span");
+    price.className = "card-fiyat";
+    price.textContent = fiyatMetni;
+    ust.appendChild(price);
+  }
+  info.appendChild(ust);
+
+  if (urun.aciklama) {
+    const p = document.createElement("p");
+    p.className = "card-aciklama";
+    p.textContent = urun.aciklama;
+    info.appendChild(p);
+  }
+
+  card.appendChild(info);
+  return card;
+}
+
 function renderHome() {
   document.querySelectorAll(".brand-accent").forEach((el) => {
     el.textContent = "Tostçu";
@@ -105,6 +159,8 @@ function renderCategoryContent(kategori) {
     return;
   }
 
+  const kartOlustur = kategori.id === "doner" ? urunKartiListe : urunKarti;
+
   if (kategori.menuler && kategori.menuler.urunler.length > 0) {
     const heading = document.createElement("h3");
     heading.className = "menuler-baslik";
@@ -113,14 +169,14 @@ function renderCategoryContent(kategori) {
 
     const grid = document.createElement("div");
     grid.className = "grid";
-    kategori.menuler.urunler.forEach((urun) => grid.appendChild(urunKarti(urun, kategori.ikon)));
+    kategori.menuler.urunler.forEach((urun) => grid.appendChild(kartOlustur(urun, kategori.ikon)));
     content.appendChild(grid);
   }
 
   if (kategori.urunler.length > 0) {
     const grid = document.createElement("div");
     grid.className = "grid";
-    kategori.urunler.forEach((urun) => grid.appendChild(urunKarti(urun, kategori.ikon)));
+    kategori.urunler.forEach((urun) => grid.appendChild(kartOlustur(urun, kategori.ikon)));
     content.appendChild(grid);
   }
 }
