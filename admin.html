@@ -15,122 +15,447 @@
       --bg: #140d0b;
       --bg-elevated: #201512;
       --bg-elevated-2: #2a1c17;
+      --bg-elevated-3: #33221b;
       --red: #d1443b;
       --gold: #f6ca45;
       --text: #f6f1ec;
       --text-muted: #ab9c92;
-      --border: rgba(246, 202, 69, 0.1);
+      --border: rgba(246, 202, 69, 0.12);
       --radius-lg: 22px;
       --radius-md: 16px;
+      --radius-sm: 11px;
+      --shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
       min-height: 100vh;
       background: var(--bg);
+      background-image: radial-gradient(circle at 15% 0%, rgba(209, 68, 59, 0.16), transparent 45%),
+        radial-gradient(circle at 85% 8%, rgba(246, 202, 69, 0.1), transparent 40%);
+      background-attachment: fixed;
       color: var(--text);
       font-family: "Plus Jakarta Sans", -apple-system, sans-serif;
-      padding: 24px 18px 60px;
+      -webkit-font-smoothing: antialiased;
     }
-    main { max-width: 640px; margin: 0 auto; }
-    h1 { font-size: 1.4rem; font-weight: 800; margin: 0 0 24px; }
+
+    /* Üst bar */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(20, 13, 11, 0.85);
+      backdrop-filter: blur(10px);
+      z-index: 10;
+    }
+    .topbar-marka {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .topbar-marka img {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .topbar-marka span {
+      font-weight: 800;
+      font-size: 1rem;
+    }
+    .topbar-marka small {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      font-weight: 500;
+    }
+    .topbar-aksiyonlar {
+      display: flex;
+      gap: 8px;
+    }
+    .icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1rem;
+      transition: transform 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+    .icon-btn:hover { color: var(--gold); border-color: var(--gold); transform: rotate(20deg); }
+    .icon-btn:active { transform: scale(0.92); }
+
+    main { max-width: 640px; margin: 0 auto; padding: 20px 18px 70px; }
+
+    /* Giriş ekranı */
+    #giris-ekrani {
+      min-height: calc(100vh - 68px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .giris-kutu {
+      width: 100%;
+      max-width: 360px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 30px 26px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    .giris-kutu img {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 14px;
+    }
+    .giris-kutu h1 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin: 0 0 4px;
+    }
+    .giris-kutu p.alt {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin: 0 0 22px;
+    }
+    .sifre-alani {
+      position: relative;
+      margin-bottom: 14px;
+    }
+    .sifre-alani input {
+      width: 100%;
+      padding-right: 44px;
+    }
+    .goz-btn {
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 8px;
+    }
+
+    h2.kart-baslik {
+      font-size: 0.85rem;
+      font-weight: 800;
+      margin: 0 0 14px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     .kart {
       background: var(--bg-elevated);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       padding: 20px;
       margin-bottom: 16px;
+      box-shadow: var(--shadow);
+      animation: kart-belir 0.35s ease both;
     }
-    .kart h2 {
-      font-size: 0.95rem;
-      font-weight: 700;
-      margin: 0 0 14px;
-      color: var(--gold);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
+    @keyframes kart-belir {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
+
     input, textarea {
       width: 100%;
       background: var(--bg-elevated-2);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
       color: var(--text);
-      padding: 12px 14px;
+      padding: 13px 14px;
       font-family: inherit;
       font-size: 0.95rem;
       margin-bottom: 10px;
+      transition: border-color 0.15s ease;
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--gold);
     }
     textarea { min-height: 110px; resize: vertical; }
-    button {
+
+    button.ana-btn {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      justify-content: center;
+      gap: 8px;
       border: none;
       background: var(--gold);
       color: var(--bg);
-      padding: 11px 22px;
+      padding: 13px 22px;
       border-radius: 999px;
       font-family: inherit;
       font-weight: 800;
-      font-size: 0.9rem;
+      font-size: 0.92rem;
       cursor: pointer;
+      width: 100%;
+      transition: filter 0.15s ease, transform 0.1s ease;
     }
-    button:disabled { opacity: 0.5; cursor: not-allowed; }
-    .hata { color: var(--red); font-size: 0.85rem; margin: 6px 0 0; }
-    .basari { color: var(--gold); font-size: 0.85rem; margin: 6px 0 0; }
-    .stat-satir {
+    button.ana-btn:hover { filter: brightness(1.08); }
+    button.ana-btn:active { transform: scale(0.98); }
+    button.ana-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    button.ikincil-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg-elevated-2);
+      color: var(--text);
+      padding: 9px 16px;
+      border-radius: 999px;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+    button.ikincil-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+    .spinner {
+      width: 15px;
+      height: 15px;
+      border: 2px solid rgba(20, 13, 11, 0.3);
+      border-top-color: var(--bg);
+      border-radius: 50%;
+      animation: donme 0.7s linear infinite;
+      display: none;
+    }
+    .spinner.aktif { display: inline-block; }
+    @keyframes donme { to { transform: rotate(360deg); } }
+
+    .hata {
+      color: var(--red);
+      font-size: 0.83rem;
+      margin: 8px 0 0;
+      display: none;
+    }
+    .hata.gorunur { display: block; }
+    .basari {
+      color: var(--gold);
+      font-size: 0.83rem;
+      margin: 8px 0 0;
+      display: none;
+    }
+    .basari.gorunur { display: block; }
+
+    /* Hero istatistik */
+    .hero-istatistik {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .hero-sayi {
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .hero-etiket {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .aylik-satir {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+    }
+    .aylik-satir:last-child { border-bottom: none; }
+    .aylik-satir span:first-child { color: var(--text-muted); }
+    .aylik-satir span:last-child { font-weight: 800; color: var(--text); }
+
+    /* Sıralı liste (kategori/ürün) */
+    .sirali-satir {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .sirali-satir:last-child { border-bottom: none; }
+    .sirali-rozet {
+      flex-shrink: 0;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--bg-elevated-3);
+      color: var(--gold);
+      font-weight: 800;
+      font-size: 0.78rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sirali-icerik { flex: 1; min-width: 0; }
+    .sirali-ust {
       display: flex;
       justify-content: space-between;
+      gap: 8px;
+      font-size: 0.88rem;
+      margin-bottom: 5px;
+    }
+    .sirali-ad { font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .sirali-sayi { color: var(--gold); font-weight: 800; flex-shrink: 0; }
+    .sirali-bar {
+      height: 5px;
+      border-radius: 999px;
+      background: var(--bg-elevated-2);
+      overflow: hidden;
+    }
+    .sirali-bar-ic {
+      height: 100%;
+      background: linear-gradient(90deg, var(--red), var(--gold));
+      border-radius: 999px;
+    }
+
+    .bos-durum {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin: 0;
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    .abone-baslik-satir {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .abone-listesi { max-height: 240px; overflow-y: auto; font-size: 0.87rem; }
+    .abone-satir {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       padding: 8px 0;
       border-bottom: 1px solid var(--border);
-      font-size: 0.9rem;
     }
-    .stat-satir:last-child { border-bottom: none; }
-    .stat-satir span:first-child { color: var(--text-muted); }
-    .stat-satir span:last-child { font-weight: 700; color: var(--gold); }
+    .abone-satir:last-child { border-bottom: none; }
+    .abone-avatar {
+      flex-shrink: 0;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--bg-elevated-3);
+      color: var(--gold);
+      font-size: 0.75rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-transform: uppercase;
+    }
+
     #panel { display: none; }
-    .abone-listesi { max-height: 220px; overflow-y: auto; font-size: 0.85rem; }
-    .abone-listesi div { padding: 6px 0; border-bottom: 1px solid var(--border); }
+    .yukleniyor-catisi {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      padding: 30px 0;
+    }
   </style>
 </head>
 <body>
-  <main>
-    <h1>Tostçu Mahmut — Yönetim Paneli</h1>
-
-    <div class="kart" id="giris-kart">
-      <h2>Giriş</h2>
-      <input type="password" id="sifre-input" placeholder="Yönetici şifresi" />
-      <button id="giris-btn" type="button">Giriş yap</button>
-      <p class="hata" id="giris-hata"></p>
+  <div class="topbar">
+    <div class="topbar-marka">
+      <img src="images/logo.jpg" alt="" />
+      <div>
+        <span>Tostçu Mahmut</span>
+        <small>Yönetim Paneli</small>
+      </div>
     </div>
+    <div class="topbar-aksiyonlar" id="topbar-aksiyonlar" style="display:none;">
+      <button class="icon-btn" id="yenile-btn" type="button" title="Yenile">↻</button>
+      <button class="icon-btn" id="cikis-btn" type="button" title="Çıkış yap">⏻</button>
+    </div>
+  </div>
 
+  <div id="giris-ekrani">
+    <div class="giris-kutu">
+      <img src="images/logo.jpg" alt="" />
+      <h1>Yönetim Girişi</h1>
+      <p class="alt">Devam etmek için şifreni gir</p>
+      <form id="giris-form">
+        <div class="sifre-alani">
+          <input type="password" id="sifre-input" placeholder="Yönetici şifresi" autocomplete="current-password" autofocus />
+          <button class="goz-btn" type="button" id="goz-btn">👁</button>
+        </div>
+        <button class="ana-btn" id="giris-btn" type="submit">
+          <span>Giriş yap</span>
+          <span class="spinner" id="giris-spinner"></span>
+        </button>
+        <p class="hata" id="giris-hata">Şifre yanlış ya da veri alınamadı.</p>
+      </form>
+    </div>
+  </div>
+
+  <main>
     <div id="panel">
       <div class="kart">
-        <h2>Ziyaretler</h2>
-        <div class="stat-satir"><span>Toplam ziyaret</span><span id="toplam-ziyaret">—</span></div>
-        <div id="aylik-ziyaret"></div>
+        <h2 class="kart-baslik">👀 Ziyaretler</h2>
+        <div class="hero-istatistik">
+          <span class="hero-sayi" id="toplam-ziyaret">0</span>
+          <span class="hero-etiket">toplam ziyaret</span>
+        </div>
+        <div id="aylik-ziyaret" style="margin-top:12px;"></div>
       </div>
 
       <div class="kart">
-        <h2>En çok bakılan kategoriler</h2>
+        <h2 class="kart-baslik">📊 En çok bakılan kategoriler</h2>
         <div id="siralikategori"></div>
       </div>
 
       <div class="kart">
-        <h2>En çok bakılan ürünler</h2>
+        <h2 class="kart-baslik">🍽️ En çok bakılan ürünler</h2>
         <div id="siraliurun"></div>
       </div>
 
       <div class="kart">
-        <h2>Aboneler (<span id="abone-sayisi">0</span>)</h2>
+        <div class="abone-baslik-satir">
+          <h2 class="kart-baslik" style="margin:0;">📧 Aboneler (<span id="abone-sayisi">0</span>)</h2>
+          <button class="ikincil-btn" id="kopyala-btn" type="button">Kopyala</button>
+        </div>
         <div class="abone-listesi" id="abone-listesi"></div>
       </div>
 
       <div class="kart">
-        <h2>Kampanya maili gönder</h2>
+        <h2 class="kart-baslik">📣 Kampanya maili gönder</h2>
         <input type="text" id="kampanya-konu" placeholder="Konu (ör. Bu hafta %20 indirim!)" />
         <textarea id="kampanya-mesaj" placeholder="Mesaj metni..."></textarea>
-        <button id="kampanya-btn" type="button">Tüm abonelere gönder</button>
+        <button class="ana-btn" id="kampanya-btn" type="button">
+          <span id="kampanya-btn-metin">Tüm abonelere gönder</span>
+          <span class="spinner" id="kampanya-spinner"></span>
+        </button>
         <p class="hata" id="kampanya-hata"></p>
         <p class="basari" id="kampanya-basari"></p>
       </div>
@@ -152,61 +477,150 @@
       document.getElementById("toplam-ziyaret").textContent = veri.toplamZiyaret;
 
       const aylikEl = document.getElementById("aylik-ziyaret");
-      aylikEl.innerHTML = Object.entries(veri.aylikSayim)
-        .sort((a, b) => (a[0] < b[0] ? 1 : -1))
-        .map(([ay, sayi]) => `<div class="stat-satir"><span>${ay}</span><span>${sayi}</span></div>`)
-        .join("");
+      const aylar = Object.entries(veri.aylikSayim).sort((a, b) => (a[0] < b[0] ? 1 : -1));
+      aylikEl.innerHTML = aylar.length
+        ? aylar.map(([ay, sayi]) => `<div class="aylik-satir"><span>${ay}</span><span>${sayi}</span></div>`).join("")
+        : '<p class="bos-durum">Henüz veri yok.</p>';
 
+      const enBuyukKategori = veri.siraliKategori[0] ? veri.siraliKategori[0][1] : 0;
       const katEl = document.getElementById("siralikategori");
       katEl.innerHTML = veri.siraliKategori.length
         ? veri.siraliKategori
-            .map(([id, sayi]) => `<div class="stat-satir"><span>${id}</span><span>${sayi}</span></div>`)
+            .map(
+              ([id, sayi], i) => `
+          <div class="sirali-satir">
+            <div class="sirali-rozet">${i + 1}</div>
+            <div class="sirali-icerik">
+              <div class="sirali-ust"><span class="sirali-ad">${id}</span><span class="sirali-sayi">${sayi}</span></div>
+              <div class="sirali-bar"><div class="sirali-bar-ic" style="width:${Math.round((sayi / enBuyukKategori) * 100)}%"></div></div>
+            </div>
+          </div>`
+            )
             .join("")
-        : '<p style="color:var(--text-muted);font-size:0.85rem;margin:0;">Henüz veri yok.</p>';
+        : '<p class="bos-durum">Henüz veri yok.</p>';
 
+      const enBuyukUrun = veri.siraliUrun[0] ? veri.siraliUrun[0][1] : 0;
       const urunEl = document.getElementById("siraliurun");
       urunEl.innerHTML = veri.siraliUrun.length
         ? veri.siraliUrun
-            .map(([ad, sayi]) => `<div class="stat-satir"><span>${ad}</span><span>${sayi}</span></div>`)
+            .map(
+              ([ad, sayi], i) => `
+          <div class="sirali-satir">
+            <div class="sirali-rozet">${i + 1}</div>
+            <div class="sirali-icerik">
+              <div class="sirali-ust"><span class="sirali-ad">${ad}</span><span class="sirali-sayi">${sayi}</span></div>
+              <div class="sirali-bar"><div class="sirali-bar-ic" style="width:${Math.round((sayi / enBuyukUrun) * 100)}%"></div></div>
+            </div>
+          </div>`
+            )
             .join("")
-        : '<p style="color:var(--text-muted);font-size:0.85rem;margin:0;">Henüz veri yok.</p>';
+        : '<p class="bos-durum">Henüz veri yok.</p>';
 
       document.getElementById("abone-sayisi").textContent = veri.aboneSayisi;
       const aboneEl = document.getElementById("abone-listesi");
       aboneEl.innerHTML = veri.aboneler.length
-        ? veri.aboneler.map((a) => `<div>${a.email}</div>`).join("")
-        : '<p style="color:var(--text-muted);font-size:0.85rem;margin:0;">Henüz abone yok.</p>';
+        ? veri.aboneler
+            .map(
+              (a) => `
+          <div class="abone-satir">
+            <div class="abone-avatar">${a.email.slice(0, 1)}</div>
+            <span>${a.email}</span>
+          </div>`
+            )
+            .join("")
+        : '<p class="bos-durum">Henüz abone yok.</p>';
+
+      window.__aboneEmailleri = veri.aboneler.map((a) => a.email);
     }
 
-    document.getElementById("giris-btn").addEventListener("click", async () => {
+    function girisBasariliGoster() {
+      document.getElementById("giris-ekrani").style.display = "none";
+      document.getElementById("panel").style.display = "block";
+      document.getElementById("topbar-aksiyonlar").style.display = "flex";
+    }
+
+    document.getElementById("goz-btn").addEventListener("click", () => {
+      const input = document.getElementById("sifre-input");
+      const btn = document.getElementById("goz-btn");
+      const gosteriliyor = input.type === "text";
+      input.type = gosteriliyor ? "password" : "text";
+      btn.textContent = gosteriliyor ? "👁" : "🙈";
+    });
+
+    document.getElementById("giris-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
       const hataEl = document.getElementById("giris-hata");
-      hataEl.textContent = "";
+      const btn = document.getElementById("giris-btn");
+      const spinner = document.getElementById("giris-spinner");
+      hataEl.classList.remove("gorunur");
       ADMIN_SIFRE = document.getElementById("sifre-input").value;
+
+      btn.disabled = true;
+      spinner.classList.add("aktif");
       try {
         const veri = await veriGetir();
         panelDoldur(veri);
-        document.getElementById("giris-kart").style.display = "none";
-        document.getElementById("panel").style.display = "block";
+        girisBasariliGoster();
       } catch (err) {
-        hataEl.textContent = "Şifre yanlış ya da veri alınamadı.";
+        hataEl.classList.add("gorunur");
+      } finally {
+        btn.disabled = false;
+        spinner.classList.remove("aktif");
       }
+    });
+
+    document.getElementById("yenile-btn").addEventListener("click", async () => {
+      const icon = document.getElementById("yenile-btn");
+      icon.style.transition = "transform 0.4s ease";
+      icon.style.transform = "rotate(360deg)";
+      try {
+        const veri = await veriGetir();
+        panelDoldur(veri);
+      } catch (err) {
+        // sessizce geç
+      } finally {
+        setTimeout(() => { icon.style.transform = ""; }, 400);
+      }
+    });
+
+    document.getElementById("cikis-btn").addEventListener("click", () => {
+      ADMIN_SIFRE = "";
+      document.getElementById("sifre-input").value = "";
+      document.getElementById("panel").style.display = "none";
+      document.getElementById("topbar-aksiyonlar").style.display = "none";
+      document.getElementById("giris-ekrani").style.display = "flex";
+    });
+
+    document.getElementById("kopyala-btn").addEventListener("click", async () => {
+      const btn = document.getElementById("kopyala-btn");
+      const eskiMetin = btn.textContent;
+      const emailler = (window.__aboneEmailleri || []).join(", ");
+      if (!emailler) return;
+      await navigator.clipboard.writeText(emailler);
+      btn.textContent = "Kopyalandı ✓";
+      setTimeout(() => { btn.textContent = eskiMetin; }, 1600);
     });
 
     document.getElementById("kampanya-btn").addEventListener("click", async () => {
       const btn = document.getElementById("kampanya-btn");
+      const btnMetin = document.getElementById("kampanya-btn-metin");
+      const spinner = document.getElementById("kampanya-spinner");
       const hataEl = document.getElementById("kampanya-hata");
       const basariEl = document.getElementById("kampanya-basari");
-      hataEl.textContent = "";
-      basariEl.textContent = "";
+      hataEl.classList.remove("gorunur");
+      basariEl.classList.remove("gorunur");
 
       const konu = document.getElementById("kampanya-konu").value.trim();
       const mesaj = document.getElementById("kampanya-mesaj").value.trim();
       if (!konu || !mesaj) {
         hataEl.textContent = "Konu ve mesaj gerekli.";
+        hataEl.classList.add("gorunur");
         return;
       }
 
       btn.disabled = true;
+      spinner.classList.add("aktif");
+      btnMetin.textContent = "Gönderiliyor...";
       try {
         const res = await fetch("/api/kampanya-gonder", {
           method: "POST",
@@ -219,10 +633,14 @@
         const veri = await res.json();
         if (!res.ok) throw new Error(veri.error || "gönderilemedi");
         basariEl.textContent = `${veri.gonderilen} aboneye gönderildi.`;
+        basariEl.classList.add("gorunur");
       } catch (err) {
         hataEl.textContent = "Gönderim başarısız: " + err.message;
+        hataEl.classList.add("gorunur");
       } finally {
         btn.disabled = false;
+        spinner.classList.remove("aktif");
+        btnMetin.textContent = "Tüm abonelere gönder";
       }
     });
   </script>
