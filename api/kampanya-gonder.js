@@ -18,31 +18,35 @@ module.exports = async (req, res) => {
     return;
   }
 
-  const supabase = getSupabase();
-  const { data: aboneler, error } = await supabase.from("aboneler").select("email");
-  if (error) {
-    res.status(500).json({ error: error.message });
-    return;
+  try {
+    const supabase = getSupabase();
+    const { data: aboneler, error } = await supabase.from("aboneler").select("email");
+    if (error) {
+      res.status(500).json({ error: error.message });
+      return;
+    }
+    if (!aboneler || aboneler.length === 0) {
+      res.status(200).json({ gonderilen: 0 });
+      return;
+    }
+
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    const gonderenAdres = process.env.RESEND_FROM || "Tostçu Mahmut <onboarding@resend.dev>";
+
+    const { error: gonderimHatasi } = await resend.emails.send({
+      from: gonderenAdres,
+      to: aboneler.map((a) => a.email),
+      subject: konu,
+      text: mesaj,
+    });
+
+    if (gonderimHatasi) {
+      res.status(500).json({ error: gonderimHatasi.message });
+      return;
+    }
+
+    res.status(200).json({ gonderilen: aboneler.length });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
-  if (!aboneler || aboneler.length === 0) {
-    res.status(200).json({ gonderilen: 0 });
-    return;
-  }
-
-  const resend = new Resend(process.env.RESEND_API_KEY);
-  const gonderenAdres = process.env.RESEND_FROM || "Tostçu Mahmut <onboarding@resend.dev>";
-
-  const { error: gonderimHatasi } = await resend.emails.send({
-    from: gonderenAdres,
-    to: aboneler.map((a) => a.email),
-    subject: konu,
-    text: mesaj,
-  });
-
-  if (gonderimHatasi) {
-    res.status(500).json({ error: gonderimHatasi.message });
-    return;
-  }
-
-  res.status(200).json({ gonderilen: aboneler.length });
 };

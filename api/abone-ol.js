@@ -32,14 +32,18 @@ module.exports = async (req, res) => {
     return;
   }
 
-  const supabase = getSupabase();
-  const { error } = await supabase
-    .from("aboneler")
-    .upsert({ email: payload.email, google_sub: payload.sub }, { onConflict: "google_sub" });
+  try {
+    const supabase = getSupabase();
+    const { error } = await supabase
+      .from("aboneler")
+      .upsert({ email: payload.email, google_sub: payload.sub }, { onConflict: "google_sub" });
 
-  if (error) {
-    res.status(500).json({ error: error.message });
-    return;
+    if (error) {
+      res.status(500).json({ error: error.message });
+      return;
+    }
+    res.status(204).end();
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
-  res.status(204).end();
 };

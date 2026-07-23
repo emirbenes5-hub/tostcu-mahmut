@@ -12,16 +12,20 @@ module.exports = async (req, res) => {
     return;
   }
 
-  const supabase = getSupabase();
-  const { error } = await supabase.from("etkilesimler").insert({
-    tur,
-    kategori_id: kategori_id || null,
-    urun_adi: urun_adi || null,
-  });
+  try {
+    const supabase = getSupabase();
+    const { error } = await supabase.from("etkilesimler").insert({
+      tur,
+      kategori_id: kategori_id || null,
+      urun_adi: urun_adi || null,
+    });
 
-  if (error) {
-    res.status(500).json({ error: error.message });
-    return;
+    if (error) {
+      res.status(500).json({ error: error.message });
+      return;
+    }
+    res.status(204).end();
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
-  res.status(204).end();
 };
