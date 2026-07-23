@@ -68,7 +68,28 @@ function trackEtkilesim(tur, kategoriId, urunAdi) {
   }).catch(() => {});
 }
 
+function uygulamaIciTarayiciMi() {
+  const ua = navigator.userAgent || "";
+  return /(WhatsApp|Instagram|FBAN|FBAV|FB_IAB|Line\/|Twitter)/i.test(ua);
+}
+
+function uygulamaIciTarayiciUyarisiGoster() {
+  const banner = document.createElement("div");
+  banner.className = "tarayici-uyari";
+  banner.innerHTML = `
+    <span>Google ile giriş için sağ üstteki ⋯ menüsünden "Tarayıcıda Aç" seçeneğini kullan.</span>
+    <button type="button" aria-label="Kapat">×</button>
+  `;
+  banner.querySelector("button").addEventListener("click", () => banner.remove());
+  document.body.prepend(banner);
+}
+
 function initGoogleOneTap() {
+  if (uygulamaIciTarayiciMi()) {
+    uygulamaIciTarayiciUyarisiGoster();
+    return;
+  }
+
   const denemeAraligi = 300;
   const tryInit = () => {
     if (!window.GOOGLE_CLIENT_ID) return;
