@@ -1,6 +1,6 @@
 {
-  "name": "Tostçu Mahmut — Menü",
-  "short_name": "Tostçu Mahmut",
+  "name": "Bns Bilişim — Dijital Menü Demo",
+  "short_name": "Bns Bilişim",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#140d0b",
@@ -8,7 +8,7 @@
   "icons": [
     {
       "src": "images/logo.jpg",
-      "sizes": "860x860",
+      "sizes": "600x600",
       "type": "image/jpeg"
     }
   ]

@@ -1,4 +1,4 @@
-// Tostçu Mahmut — Menü verisi
+// Bns Bilişim — Dijital Menü Demo verisi
 // Kategori sırası aşağıdaki gibi görünür. Her kategoride:
 //   urunler: ana ürün listesi
 //   menuler: (opsiyonel) { baslik, urunler } — "Menüler" gibi ayrı bir alt liste
@@ -7,14 +7,14 @@
 
 const MENU = {
   dukkan: {
-    ad: "Tostçu Mahmut",
+    ad: "Bns Bilişim",
     // Aşağıdaki iletişim bilgilerini gerçek değerlerle değiştir.
-    telefon: "0530 013 5201",
-    adres: "Yurt, Şair Hasibehatun Cd, 01170 Çukurova/Adana",
-    saatler: "Her gün 09:00 – 23:00",
-    instagram: "@tostcumahmut",
-    instagramUrl: "https://www.instagram.com/tostcumahmut/",
-    googleMaps: "https://share.google/UTQpVF2dcserxidPc",
+    telefon: "0551 009 50 71",
+    adres: "Online / Türkiye geneli",
+    saatler: "Pazartesi – Cumartesi 09:00 – 18:00",
+    instagram: "benes.com.tr",
+    instagramUrl: "https://benes.com.tr",
+    googleMaps: "https://wa.me/905510095071",
   },
   kategoriler: [
     {

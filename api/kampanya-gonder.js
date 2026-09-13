@@ -31,7 +31,7 @@ module.exports = async (req, res) => {
     }
 
     const resend = new Resend(process.env.RESEND_API_KEY);
-    const gonderenAdres = process.env.RESEND_FROM || "Tostçu Mahmut <onboarding@resend.dev>";
+    const gonderenAdres = process.env.RESEND_FROM || "Bns Bilişim <onboarding@resend.dev>";
 
     const { error: gonderimHatasi } = await resend.emails.send({
       from: gonderenAdres,

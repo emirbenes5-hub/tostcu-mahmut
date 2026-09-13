@@ -310,7 +310,7 @@ function renderInfoFooter() {
       <span>${d.saatler}</span>
     </div>
     <a class="info-satir" href="${d.instagramUrl}" target="_blank" rel="noopener">
-      <span class="info-ikon">📷</span>
+      <span class="info-ikon">🌐</span>
       <span>${d.instagram}</span>
     </a>
   `;
