@@ -195,8 +195,9 @@ function urunKartiListe(urun, ikonFallback) {
 }
 
 function renderHome() {
+  const vurguKelime = (MENU.dukkan.ad || "").split(" ")[0];
   document.querySelectorAll(".brand-accent").forEach((el) => {
-    el.textContent = "Tostçu";
+    el.textContent = vurguKelime;
   });
 
   const wrap = document.getElementById("home-kategoriler");
