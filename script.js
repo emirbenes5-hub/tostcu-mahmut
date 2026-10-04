@@ -57,7 +57,7 @@ function urunKarti(urun, ikonFallback) {
 }
 
 function trackZiyaret() {
-  fetch("/api/track-ziyaret", { method: "POST" }).catch(() => {});
+  fetch("/api/track-ziyaret2", { method: "POST" }).catch(() => {});
 }
 
 function trackEtkilesim(tur, kategoriId, urunAdi) {
