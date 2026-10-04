@@ -16,7 +16,6 @@ module.exports = async (req, res) => {
     }
     res.status(204).end();
   } catch (err) {
-    console.error("track-ziyaret hata:", err, "cause:", err.cause);
-    res.status(500).json({ error: err.message, cause: err.cause ? String(err.cause) : null });
+    res.status(500).json({ marker: "DEBUG-MARKER-9f3a", error: err.message, cause: String(err.cause) });
   }
 };
